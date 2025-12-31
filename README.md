@@ -10,7 +10,6 @@ A distributed web log analytics platform using MPI for parallel processing. Each
 - **Realistic Log Generation**: Imbalanced traffic patterns per server (region weights, peak hours)
 - **Comprehensive Analytics**: Status codes, methods, regions, hourly traffic, top paths
 - **Interactive Dashboard**: 6-page web UI with light/dark theme, per-chart filters, real-time updates
-- **Serial Baseline**: Single-process analyzer for comparison/benchmarking
 
 ---
 
@@ -85,15 +84,7 @@ mpiexec -n 4 python parallel_analyzer.py ^
 
 > **Note**: MPI world size = number of logs + 1 (head). For 3 logs, use `-n 4`.
 
-### 3. Run Serial Baseline (Optional)
-
-```powershell
-python serial_analyzer.py ^
-    --logs logs/server1.log logs/server2.log logs/server3.log ^
-    --output reports/serial_summary.json
-```
-
-### 4. Launch the Dashboard
+### 3. Launch the Dashboard
 
 ```powershell
 python dashboard.py ^
@@ -147,7 +138,6 @@ parallel_log_analyzer/
 ├── analysis_core.py      # Shared parsing & statistics utilities
 ├── generate_logs.py      # Realistic multi-server log generator
 ├── parallel_analyzer.py  # MPI head/worker analyzer
-├── serial_analyzer.py    # Single-process baseline
 ├── dashboard.py          # Flask web dashboard
 ├── requirements.txt      # Python dependencies
 ├── logs/                 # Generated log files
@@ -249,15 +239,6 @@ Options:
   --logs FILE [FILE ...]  Log files to analyze (one per worker)
   --output FILE           Output JSON path (default: reports/parallel_summary.json)
   --plot FILE             Optional plot output path
-```
-
-### serial_analyzer.py
-```
-python serial_analyzer.py [OPTIONS]
-
-Options:
-  --logs FILE [FILE ...]  Log files to analyze
-  --output FILE           Output JSON path (default: reports/serial_summary.json)
 ```
 
 ### dashboard.py
